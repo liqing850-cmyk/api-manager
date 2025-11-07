@@ -1,0 +1,29 @@
+name = "api-manager-worker"
+main = "src/worker.js"
+compatibility_date = "2025-11-07"
+workers_dev = true
+
+[[kv_namespaces]]
+binding = "USERS_KV"
+id = "your-users-kv-id"  # Replace with your actual KV namespace ID from Cloudflare Dashboard
+preview_id = "your-users-kv-preview-id"
+
+[[kv_namespaces]]
+binding = "APIS_KV"
+id = "your-apis-kv-id"
+preview_id = "your-apis-kv-preview-id"
+
+[[kv_namespaces]]
+binding = "VIDEO_SOURCES_KV"
+id = "your-video-sources-kv-id"
+preview_id = "your-video-sources-kv-preview-id"
+
+[[kv_namespaces]]
+binding = "PROXIES_KV"
+id = "your-proxies-kv-id"
+preview_id = "your-proxies-kv-preview-id"
+
+[[kv_namespaces]]
+binding = "JSON_EXPORT_KV"
+id = "your-json-export-kv-id"
+preview_id = "your-json-export-kv-preview-id"
