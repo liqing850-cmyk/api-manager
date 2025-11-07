@@ -1,12 +1,27 @@
-name = "api-manager-worker"
-main = "src/worker.js"
-compatibility_date = "2025-11-07"
-workers_dev = true
+# wrangler.toml - API Manager Worker 配置（基于 2025 年 11 月官方示例）
+name = "api-manager-worker"  # Worker 名称（Dashboard 中可见）
+main = "src/worker.js"       # 入口文件路径
+compatibility_date = "2025-11-07"  # 兼容日期（当前日期，确保最新 Workers 运行时）
+workers_dev = true           # 启用本地开发模式（wrangler dev）
 
+# 构建过程配置（如果项目有 NPM 依赖或 TypeScript）
+[build]
+command = "npm run build"    # 自定义构建命令（可选；如果无依赖，可删除此节）
+target = "es2020"            # 目标 JS 版本（可选）
+
+# 环境变量（非秘密值）
+[vars]
+NODE_VERSION = "18"          # 示例：传递给 Workers 的变量
+
+# 路由配置（可选，如果绑定自定义域名）
+[site]
+bucket = "./dist"            # 如果有静态资产（可选）
+
+# KV Namespace 绑定（替换为实际 ID；从 wrangler kv:namespace create 获取）
 [[kv_namespaces]]
 binding = "USERS_KV"
-id = "your-users-kv-id"  # Replace with your actual KV namespace ID from Cloudflare Dashboard
-preview_id = "your-users-kv-preview-id"
+id = "your-users-kv-id"      # 生产 ID
+preview_id = "your-users-kv-preview-id"  # 预览/开发 ID
 
 [[kv_namespaces]]
 binding = "APIS_KV"
@@ -27,3 +42,12 @@ preview_id = "your-proxies-kv-preview-id"
 binding = "JSON_EXPORT_KV"
 id = "your-json-export-kv-id"
 preview_id = "your-json-export-kv-preview-id"
+
+# 多环境支持（可选，例如 staging）
+[env.staging]
+name = "api-manager-worker-staging"
+compatibility_date = "2025-11-07"
+kv_namespaces = []  # 可覆盖生产 KV
+
+# 解决直接上传构建警告（如果坚持使用直接上传）
+no_bundle = true  # 跳过 Wrangler 内部打包，直接上传纯 JS（仅限简单项目）
